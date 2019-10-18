@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import SearchForm from "./SearchForm";
+import CharacterCard from "./CharacterCard";
+
+
 
 
 export default function CharacterList() {
@@ -14,7 +17,7 @@ export default function CharacterList() {
     Axios
       .get('https://rickandmortyapi.com/api/character/?name=${search}')
       .then(res => {
-        console.log(res);
+        console.log(res.data);
         const characters = res.data.results;
         setData(characters);
       })
