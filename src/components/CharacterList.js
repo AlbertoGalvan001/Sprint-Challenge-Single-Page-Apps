@@ -15,10 +15,13 @@ export default function CharacterList() {
     // TODO: Add API Request here - must run in `useEffect`
     //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
     Axios
-      .get('https://rickandmortyapi.com/api/character/?name=${search}')
-      .then(res => {
-        console.log(res.data);
-        const characters = res.data.results;
+      .get('https://rickandmortyapi.com/api/character/')
+      .then(response => {
+
+        const characters = response.data.results.filter(character =>
+          character.name.toLowerCase().includes(search.toLowerCase())
+        );
+        console.log("character data", response);
         setData(characters);
       })
       .catch(err => {
@@ -27,15 +30,18 @@ export default function CharacterList() {
 
   }, [search]);
 
-  const handleChange = (event) => {
-    event.preventDefault();
+  const handleInputChange = event => {
     setSearch(event.target.value);
-  }
+  };
+  // const handleChange = (event) => {
+  //   event.preventDefault();
+  //   setSearch(event.target.value);
+  // }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    alert(`submitting Name: ${search}`)
-  }
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   alert(`submitting Name: ${search}`)
+  // }
 
   return (
     <section className="character-list">
@@ -43,8 +49,8 @@ export default function CharacterList() {
       <SearchForm
         placeholder="search characters"
         value={search}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
+        handleChange={handleInputChange}
+      // handleSubmit={handleSubmit}
       />
       {data.map(character => (
         <CharacterCard
